@@ -1,36 +1,37 @@
-import React, { Component } from "react";
+import React from "react";
 import Modal from "../../components/UI/Modal/Modal";
-import Aux from "../Auxiliary";
 
-const ErrorHandler = (WrappedComponent, axios) => {
-  return class extends Component {
+const withErrorHandler = (WrappedComponent, axios) => {
+  //anonymous class
+  return class extends React.Component {
     state = {
       error: null,
     };
-    componentWillMount() {
-      this.reqInterceptor = axios.interceptors.request.use((req) => {
+    UNSAFE_componentWillMount() {
+      this.requestInterceptor = axios.interceptors.request.use((req) => {
         this.setState({ error: null });
         return req;
       });
-      this.resInterceptor = axios.interceptors.response.use(
-        (res) => res,
+      this.responseInterceptor = axios.interceptors.response.use(
+        null,
         (error) => {
+          //error set by Firebase
           this.setState({ error: error });
         }
       );
     }
     componentWillUnmount() {
-      console.log("Will Unmount", this.reqInterceptor, this.resInterceptor);
-
-      axios.interceptors.request.eject(this.reqInterceptor);
-      axios.interceptors.response.eject(this.resInterceptor);
+      axios.interceptors.request.eject(this.requestInterceptor);
+      axios.interceptors.response.eject(this.responseInterceptor);
     }
     errorConfirmedHandler = () => {
-      this.setState({ error: null });
+      this.setState({
+        error: null,
+      });
     };
     render() {
       return (
-        <Aux>
+        <>
           <Modal
             show={this.state.error}
             Modalclosed={this.errorConfirmedHandler}
@@ -38,10 +39,10 @@ const ErrorHandler = (WrappedComponent, axios) => {
             {this.state.error ? this.state.error.message : null}
           </Modal>
           <WrappedComponent {...this.props} />
-        </Aux>
+        </>
       );
     }
   };
 };
 
-export default ErrorHandler;
+export default withErrorHandler;

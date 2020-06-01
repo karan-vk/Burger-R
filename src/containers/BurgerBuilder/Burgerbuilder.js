@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Aux from "../../HOC/Auxiliary";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "./../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -25,6 +24,8 @@ class Burgerbuilder extends Component {
     error: false,
   };
   componentDidMount() {
+    // console.log(this.props);
+
     let dataa = null;
     axios
       .get("https://react--burger.firebaseio.com/ingredients.json")
@@ -92,29 +93,21 @@ class Burgerbuilder extends Component {
   };
   purchaseContinueHandler = () => {
     //Swal.fire("You Continue", "", "success");
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredient,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Karan",
-        address: {
-          street: "testest1",
-          zipcode: "0000000",
-          country: "India",
-        },
-        email: "test@test.com",
-      },
-      delivery: "fastest",
-    };
-    axios
-      .post("/orders.json", order)
-      .then((res) => {
-        this.setState({ loading: false, purchasing: false });
-      })
-      .catch((err) => {
-        this.setState({ loading: false, purchasing: false });
-      });
+
+    const queryParams = [];
+    for (let i in this.state.ingredient) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredient[i])
+      );
+    }
+    queryParams.push("price=" + this.state.totalPrice);
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
   };
 
   render() {
@@ -133,7 +126,7 @@ class Burgerbuilder extends Component {
     );
     if (this.state.ingredient) {
       burger = (
-        <Aux>
+        <>
           <Burger ingredient={this.state.ingredient} />
           <BuildControls
             ingredientRemoved={this.remIng}
@@ -143,7 +136,7 @@ class Burgerbuilder extends Component {
             purchasable={this.state.purchasable}
             ordered={this.purchasehandler}
           />
-        </Aux>
+        </>
       );
 
       OrederSummary = (
@@ -160,7 +153,7 @@ class Burgerbuilder extends Component {
     }
 
     return (
-      <Aux>
+      <>
         <Modal
           show={this.state.purchasing}
           Modalclosed={this.purchaseCancelHandler}
@@ -168,7 +161,7 @@ class Burgerbuilder extends Component {
           {OrederSummary}
         </Modal>
         {burger}
-      </Aux>
+      </>
     );
   }
 }

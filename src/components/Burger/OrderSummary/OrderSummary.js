@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Aux from "../../../HOC/Auxiliary";
 import Button from "../../UI/Button/Button";
 
 class OrderSummary extends Component {
@@ -18,7 +17,7 @@ class OrderSummary extends Component {
       }
     );
     return (
-      <Aux>
+      <>
         <h3>Your Order</h3>
         <p>Delicious burger with the foowing ingredients:</p>
         <ul>{ingredientsummary}</ul>
@@ -32,7 +31,7 @@ class OrderSummary extends Component {
         <Button btnType="Success" clicked={this.props.purchaceContinued}>
           CONTINUE
         </Button>
-      </Aux>
+      </>
     );
   }
 }

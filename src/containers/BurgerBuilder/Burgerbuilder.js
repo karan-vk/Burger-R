@@ -1,38 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actionType from "../../store/action";
+// import * as actionType from "../../store/actions/actionTypes";
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "./../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import withErrorHandler from "../../HOC/Error/ErrorHandler";
 // import Swal from "sweetalert2";
-import axios from "../../axios";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import * as burgerBuliderActions from "../../store/actions/index";
+import axios from "../../axios";
 
 class Burgerbuilder extends Component {
   state = {
     purchasing: false,
     loading: false,
-    error: false,
   };
 
   componentDidMount() {
-    // console.log(this.props);
+    console.log(this.props);
 
-    let dataa = null;
-    axios
-      .get("https://react--burger.firebaseio.com/ingredients.json")
-      .then((response) => {
-        dataa = response.data;
-        // this.setState.apply({ ingredient: dataa });
-      })
-      .then(() => {
-        this.setState({ ingredient: dataa });
-      })
-      .catch((error) => {
-        this.setState({ error: true });
-      });
+    this.props.onInitIngredients();
   }
 
   updatePurchaseState(ingredients) {
@@ -67,7 +55,7 @@ class Burgerbuilder extends Component {
     }
     let OrederSummary = null;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingredients cannot be loaded</p>
     ) : (
       <Spinner />
@@ -116,19 +104,18 @@ class Burgerbuilder extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredient,
-    price: state.totalPrice,
+    ings: state.burgerBuilder.ingredient,
+    price: state.burgerBuilder.totalPrice,
+    error: state.burgerBuilder.error,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingName) =>
-      dispatch({ type: actionType.ADD_INGREDIENT, indgredientName: ingName }),
+      dispatch(burgerBuliderActions.addIngredient(ingName)),
     onIngredientRemoved: (ingName) =>
-      dispatch({
-        type: actionType.REMOVE_INGREDIENT,
-        indgredientName: ingName,
-      }),
+      dispatch(burgerBuliderActions.removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(burgerBuliderActions.initIngredient()),
   };
 };
 

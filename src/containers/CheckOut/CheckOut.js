@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 // import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { connect } from "react-redux";
 // import ContactactData from "../../containers/CheckOut/Contact data/ContactactData";
@@ -19,21 +19,25 @@ class CheckOut extends Component {
     this.props.history.replace("/checkout/contact-data");
   };
   render() {
-    return (
-      <>
-        <Suspense fallback={<Spinner />}>
+    let summary = <Redirect to="/" />;
+    if (this.props.ings) {
+      summary = (
+        <div>
           <CheckoutSummary
             CheckoutCancel={this.CheckoutCanceledHandler}
             CheckoutContinued={this.CheckoutContinuedHandler}
             ingredient={this.props.ings}
           />
-        </Suspense>
-        <Suspense fallback={<Spinner />}>
           <Route
             path={this.props.match.path + "/contact-data"}
             component={ContactactData}
           />
-        </Suspense>
+        </div>
+      );
+    }
+    return (
+      <>
+        <Suspense fallback={<Spinner />}>{summary}</Suspense>
       </>
     );
   }
@@ -41,7 +45,7 @@ class CheckOut extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredient,
+    ings: state.burgerBuilder.ingredient,
   };
 };
 

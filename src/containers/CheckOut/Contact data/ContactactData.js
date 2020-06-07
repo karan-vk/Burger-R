@@ -5,6 +5,8 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import classes from "./ContactData.module.css";
 import axios from "../../../axios";
 import Input from "../../../components/UI/Input/Input";
+import withErrorHandler from "../../../HOC/Error/ErrorHandler";
+import * as actions from "../../../store/actions/index";
 
 class ContactactData extends Component {
   state = {
@@ -78,11 +80,9 @@ class ContactactData extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
   };
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
     const formData = {};
     for (let formElementIdentifier in this.state.orderForm) {
       formData[formElementIdentifier] = this.state.orderForm[
@@ -94,15 +94,7 @@ class ContactactData extends Component {
       price: this.props.price,
       orderData: formData,
     };
-    axios
-      .post("/orders.json", order)
-      .then((res) => {
-        this.setState({ loading: false });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        this.setState({ loading: false });
-      });
+    this.props.onOrderBurger(order);
   };
   checkvalidity = (value, rules) => {
     let isValid = true;
@@ -168,7 +160,7 @@ class ContactactData extends Component {
         </Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -181,9 +173,20 @@ class ContactactData extends Component {
 }
 const mapStatetoProps = (state) => {
   return {
-    ings: state.ingredient,
-    price: state.totalPrice,
+    ings: state.burgerBuilder.ingredient,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.loading,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onOrderBurger: (orderData) => {
+      dispatch(actions.purchaseBurger(orderData));
+    },
   };
 };
 
-export default connect(mapStatetoProps)(ContactactData);
+export default connect(
+  mapStatetoProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactactData, axios));

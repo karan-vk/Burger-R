@@ -4,6 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { connect } from "react-redux";
 // import ContactactData from "../../containers/CheckOut/Contact data/ContactactData";
+import * as actions from "../../store/actions/index";
 const CheckoutSummary = React.lazy(() =>
   import("../../components/Order/CheckoutSummary/CheckoutSummary")
 );
@@ -12,6 +13,9 @@ const ContactactData = React.lazy(() =>
 );
 
 class CheckOut extends Component {
+  componentWillMount() {
+    this.props.onInitPurchase();
+  }
   CheckoutCanceledHandler = () => {
     this.props.history.goBack();
   };
@@ -35,8 +39,10 @@ class CheckOut extends Component {
         </div>
       );
     }
+    let purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
     return (
       <>
+        {purchasedRedirect}
         <Suspense fallback={<Spinner />}>{summary}</Suspense>
       </>
     );
@@ -46,7 +52,13 @@ class CheckOut extends Component {
 const mapStateToProps = (state) => {
   return {
     ings: state.burgerBuilder.ingredient,
+    purchased: state.order.purchased,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
   };
 };
 
-export default connect(mapStateToProps)(CheckOut);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOut);

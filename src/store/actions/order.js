@@ -28,10 +28,16 @@ export const purchaseBurger = (orderData) => {
       .then((res) => {
         console.log(res.data);
 
-        dispatch(prchaseBurgerSuccess(res.data, orderData));
+        dispatch(prchaseBurgerSuccess(res.data.name, orderData));
       })
       .catch((err) => {
         dispatch(purchaseBurgerFail(err));
       });
+  };
+};
+
+export const purchaseInit = () => {
+  return {
+    type: actionTypes.PURCHASE_INIT,
   };
 };

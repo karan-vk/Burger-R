@@ -6,6 +6,8 @@ import BuildControls from "./../../components/Burger/BuildControls/BuildControls
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import withErrorHandler from "../../HOC/Error/ErrorHandler";
+import * as actions from "../../store/actions/index";
+
 // import Swal from "sweetalert2";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import * as burgerBuliderActions from "../../store/actions/index";
@@ -42,6 +44,7 @@ class Burgerbuilder extends Component {
   };
   purchaseContinueHandler = () => {
     //Swal.fire("You Continue", "", "success");
+    this.props.onInitPurchase();
 
     this.props.history.push("/checkout");
   };
@@ -116,6 +119,7 @@ const mapDispatchToProps = (dispatch) => {
     onIngredientRemoved: (ingName) =>
       dispatch(burgerBuliderActions.removeIngredient(ingName)),
     onInitIngredients: () => dispatch(burgerBuliderActions.initIngredient()),
+    onInitPurchase: () => dispatch(actions.purchaseInit()),
   };
 };
 

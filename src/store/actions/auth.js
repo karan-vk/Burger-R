@@ -24,7 +24,7 @@ export const auth = (email, password) => {
       password: password,
       returnSecureToken: true,
     };
-    console.log(authData);
+    // console.log(authData);
 
     axios
       .post(

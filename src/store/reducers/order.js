@@ -6,7 +6,8 @@ const initialState = {
   purchased: false,
 };
 
-const purInit = (state) => updateObject(state, { purchased: false });
+const purInit = (state) =>
+  updateObject(state, { purchased: false, loading: false });
 const purBurSt = (state) => updateObject(state, { loading: true });
 const purBueSuccess = (state, action) => {
   const newOrder = {

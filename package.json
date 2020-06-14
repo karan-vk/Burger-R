@@ -2,7 +2,7 @@
   "name": "burger-config",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://karan-vk.github.io/React-Burger/",
+  "homepage": "https://karan-vk.github.io/Burger-R/",
   "dependencies": {
     "axios": "^0.19.2",
     "clsx": "^1.1.1",

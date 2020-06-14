@@ -6,6 +6,7 @@ import Orders from "./containers/Orders/Orders";
 import { Route, Switch } from "react-router-dom";
 // import Spinner from "./components/UI/Spinner/Spinner";
 import Auth from "./containers/Auth/Auth";
+import Logout from "./containers/Auth/Logout/Logout";
 // const Orders = React.lazy(() => import("./containers/Orders/Orders"));
 // const CheckOut = React.lazy(() => import("./containers/CheckOut/CheckOut"));
 
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/checkout" component={CheckOut} />
             <Route path="/orders" component={Orders} />
             <Route path="/auth" component={Auth} />
+            <Route path="/logout" component={Logout} />
           </Switch>
           <Route path="/" exact component={BurgerBuilder} />
         </Layout>

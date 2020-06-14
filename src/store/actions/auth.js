@@ -70,24 +70,23 @@ export const setAuthRedirectPath = (path) => ({
   path: path,
 });
 
-export const authCheckState = () => {
-  return (dispatch) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
+export const authCheckState = () => (dispatch) => {
+  console.log("hello");
+  const token = localStorage.getItem("token");
+  if (!token) {
+    dispatch(logout());
+  } else {
+    const expirationDate = new Date(localStorage.getItem("expirationDate"));
+    if (expirationDate <= new Date()) {
       dispatch(logout());
     } else {
-      const expirationDate = new Date(localStorage.getItem("expirationDate"));
-      if (expirationDate > new Date()) {
-        dispatch(logout());
-      } else {
-        const userId = localStorage.getItem("userId");
-        dispatch(authSuccess(token, userId));
-        dispatch(
-          checkAuthTimeOut(
-            expirationDate.getSeconds() - new Date().getSeconds()
-          )
-        );
-      }
+      const userId = localStorage.getItem("userId");
+      dispatch(authSuccess(token, userId));
+      dispatch(
+        checkAuthTimeOut(
+          (expirationDate.getTime() - new Date().getTime()) / 1000
+        )
+      );
     }
-  };
+  }
 };

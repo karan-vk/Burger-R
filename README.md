@@ -1,6 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Please click here for a [demo](https://karan-vk.github.io/Burger-R/)
 
-[demo](https://karan-vk.github.io/Burger-R/)
+This Project was a result of my guru [Maximilian Schwarzmüller](https://github.com/mschwarzmueller)
 
 ## Available Scripts
 

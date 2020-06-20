@@ -13,7 +13,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import * as burgerBuliderActions from "../../store/actions/index";
 import axios from "../../axios";
 
-class Burgerbuilder extends Component {
+export class Burgerbuilder extends Component {
   state = {
     purchasing: false,
     loading: false,

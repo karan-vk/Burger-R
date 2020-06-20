@@ -4,10 +4,7 @@ import Layout from "./components/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/Burgerbuilder";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import * as actions from "./store/actions/index";
-// import Spinner from "./components/UI/Spinner/Spinner";
 import Logout from "./containers/Auth/Logout/Logout";
-// const Orders = React.lazy(() => import("./containers/Orders/Orders"));
-// const CheckOut = React.lazy(() => import("./containers/CheckOut/CheckOut"));
 import asyncComponent from "./HOC/AsyncComponent/AsyncComponent";
 const asyncCheckOut = asyncComponent(() => {
   return import("./containers/CheckOut/CheckOut");

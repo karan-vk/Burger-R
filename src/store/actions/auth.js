@@ -38,7 +38,7 @@ export const auth = (email, password, isSignup) => {
       returnSecureToken: true,
     };
     dispatch(authStart());
-    // console.log(authData);
+
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA7Qo112f6jIIImUptFtPracjhczTky_r4";
     if (!isSignup) {
@@ -48,7 +48,6 @@ export const auth = (email, password, isSignup) => {
     axios
       .post(url, authData)
       .then((res) => {
-        console.log(res);
         const expDate = new Date(
           new Date().getTime() + res.data.expiresIn * 1000
         );
@@ -59,7 +58,6 @@ export const auth = (email, password, isSignup) => {
         dispatch(checkAuthTimeOut(res.data.expiresIn));
       })
       .catch((err) => {
-        console.log(err);
         dispatch(authFail(err.response.data.error));
       });
   };
@@ -71,7 +69,6 @@ export const setAuthRedirectPath = (path) => ({
 });
 
 export const authCheckState = () => (dispatch) => {
-  console.log("hello");
   const token = localStorage.getItem("token");
   if (!token) {
     dispatch(logout());

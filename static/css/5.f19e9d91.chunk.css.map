@@ -1,0 +1,1 @@
+{"version":3,"sources":["CheckoutSummary.module.css"],"names":[],"mappings":"AAAA,wCACE,iBAAkB,CAClB,SAAU,CACV,WACF","file":"5.f19e9d91.chunk.css","sourcesContent":[".CheckoutSummary {\r\n  text-align: center;\r\n  width: 70%;\r\n  margin: auto;\r\n}\r\n"]}

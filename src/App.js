@@ -2,15 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Layout from "./components/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/Burgerbuilder";
-import CheckOut from "./containers/CheckOut/CheckOut";
-import Orders from "./containers/Orders/Orders";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import * as actions from "./store/actions/index";
 // import Spinner from "./components/UI/Spinner/Spinner";
-import Auth from "./containers/Auth/Auth";
 import Logout from "./containers/Auth/Logout/Logout";
 // const Orders = React.lazy(() => import("./containers/Orders/Orders"));
 // const CheckOut = React.lazy(() => import("./containers/CheckOut/CheckOut"));
+import asyncComponent from "./HOC/AsyncComponent/AsyncComponent";
+const asyncCheckOut = asyncComponent(() => {
+  return import("./containers/CheckOut/CheckOut");
+});
+const asyncOrders = asyncComponent(() => {
+  return import("./containers/Orders/Orders");
+});
+const asyncAuth = asyncComponent(() => {
+  return import("./containers/Auth/Auth");
+});
 
 class App extends Component {
   componentDidMount() {
@@ -19,7 +26,7 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" component={asyncAuth} />
         <Route path="/" exact component={BurgerBuilder} />
         <Redirect to="/" />
       </Switch>
@@ -27,10 +34,10 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route path="/auth" component={Auth} />
+          <Route path="/auth" component={asyncAuth} />
           <Route path="/" exact component={BurgerBuilder} />
-          <Route path="/checkout" component={CheckOut} />
-          <Route path="/orders" component={Orders} />
+          <Route path="/checkout" component={asyncCheckOut} />
+          <Route path="/orders" component={asyncOrders} />
           <Route path="/logout" component={Logout} />
           <Redirect to="/" />
         </Switch>

@@ -2,3 +2,4 @@
 // "homepage": "https://karan-vk.github.io/Burger-R/",
 basename={process.env.PUBLIC_URL
 }
+"homepage": "https://karan-vk.github.io/Burger-R/",

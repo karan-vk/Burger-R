@@ -1,7 +1,6 @@
 {
   "name": "burger-config",
   "version": "1.22.4",
-  "homepage": "https://karan-vk.github.io/Burger-R/",
   "private": true,
   "dependencies": {
     "axios": "^0.20.0",

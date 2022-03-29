@@ -50,6 +50,6 @@
     "jest-dom": "^4.0.0",
     "react-doc-generator": "^1.2.5",
     "react-docgen": "^5.3.0",
-    "yarn-upgrade-all": "^0.5.4"
+    "yarn-upgrade-all": "^0.7.0"
   }
 }
